@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { formatCurrency } from '../../lib/utils';
 
 interface BalanceCardProps {
@@ -5,7 +6,7 @@ interface BalanceCardProps {
   monthName: string;
 }
 
-export function BalanceCard({ balance, monthName }: BalanceCardProps) {
+export const BalanceCard = memo(function BalanceCard({ balance, monthName }: BalanceCardProps) {
   return (
     <div className="balance-card">
       <p className="balance-label">Total balance</p>
@@ -13,4 +14,4 @@ export function BalanceCard({ balance, monthName }: BalanceCardProps) {
       <p className="balance-month">{monthName}</p>
     </div>
   );
-}
+});

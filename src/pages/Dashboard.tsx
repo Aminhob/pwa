@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { getMonthlySummary, getRecentTransactions } from '../lib/analytics';
@@ -18,7 +18,10 @@ export function Dashboard() {
   const [allTransactions, setAllTransactions] = useState<Transaction[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
 
-  const monthName = new Date(year, month - 1).toLocaleString('en-US', { month: 'long', year: 'numeric' });
+  const monthName = useMemo(() => 
+    new Date(year, month - 1).toLocaleString('en-US', { month: 'long', year: 'numeric' }),
+    [year, month]
+  );
 
   useEffect(() => {
     void Promise.all([
@@ -40,10 +43,13 @@ export function Dashboard() {
     });
   }, [userId, month, year]);
 
-  const catMap = new Map(categories.map((c) => [c.id, c]));
-  const balance = allTransactions.reduce(
-    (sum, tx) => sum + (tx.type === 'income' ? tx.amount : -tx.amount),
-    0
+  const catMap = useMemo(() => new Map(categories.map((c) => [c.id, c])), [categories]);
+  const balance = useMemo(() => 
+    allTransactions.reduce(
+      (sum, tx) => sum + (tx.type === 'income' ? tx.amount : -tx.amount),
+      0
+    ),
+    [allTransactions]
   );
 
   return (

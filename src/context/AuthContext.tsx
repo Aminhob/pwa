@@ -45,22 +45,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(true);
   const [syncStatus, setSyncStatus] = useState<'idle' | 'syncing' | 'synced' | 'error'>('idle');
   const [syncError, setSyncError] = useState<string | null>(null);
-  const [mounted, setMounted] = useState(false);
 
   const userId = user?.id ?? LOCAL_USER_ID;
 
   useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  useEffect(() => {
-    if (!mounted) return;
     void initializeDatabase(userId);
-  }, [userId, mounted]);
+  }, [userId]);
 
   useEffect(() => {
-    if (!mounted) return;
-
     // Check for persisted session first
     const persistedSession = localStorage.getItem(SESSION_STORAGE_KEY);
     if (persistedSession) {
@@ -116,7 +108,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     });
 
     return () => subscription.unsubscribe();
-  }, [mounted]);
+  }, []);
 
   useEffect(() => {
     if (!user) return;

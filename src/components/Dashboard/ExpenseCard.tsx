@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { TrendingUp, TrendingDown } from 'lucide-react';
 import { formatCurrency } from '../../lib/utils';
 
@@ -6,7 +7,7 @@ interface ExpenseCardProps {
   expenses: number;
 }
 
-export function ExpenseCard({ income, expenses }: ExpenseCardProps) {
+export const ExpenseCard = memo(function ExpenseCard({ income, expenses }: ExpenseCardProps) {
   return (
     <div className="expense-card">
       <div className="expense-card-item">
@@ -29,4 +30,4 @@ export function ExpenseCard({ income, expenses }: ExpenseCardProps) {
       </div>
     </div>
   );
-}
+});
