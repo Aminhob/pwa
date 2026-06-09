@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { OnboardingGuard } from './components/OnboardingGuard';
 import { AppLayout } from './components/Layout/AppLayout';
@@ -13,7 +13,7 @@ import { Onboarding } from './pages/Onboarding';
 import { Auth } from './pages/Auth';
 
 function AppRoutes() {
-  const { loading } = useAuth();
+  const { loading, user } = useAuth();
 
   if (loading) {
     return (
@@ -29,7 +29,10 @@ function AppRoutes() {
       <Routes>
         <Route index element={<Onboarding />} />
         <Route path="onboarding" element={<Onboarding />} />
-        <Route path="auth" element={<Auth />} />
+        <Route 
+          path="auth" 
+          element={user ? <Navigate to="/dashboard" replace /> : <Auth />} 
+        />
         <Route element={<AppLayout />}>
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="transactions" element={<Transactions />} />

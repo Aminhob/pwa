@@ -2,7 +2,7 @@
 
 import { useState, useCallback, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { Mail, Lock, Eye, EyeOff, ArrowLeft } from 'lucide-react';
+import { Mail, Lock, Eye, EyeOff, ArrowLeft, Loader2 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { isSupabaseConfigured } from '../lib/supabase';
 
@@ -33,7 +33,6 @@ export function Auth() {
     }
   }, []);
 
-  // Update cooldown display every second
   const goToApp = () => navigate('/dashboard', { replace: true });
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -45,9 +44,15 @@ export function Auth() {
       return;
     }
 
-    // Rate limiting: prevent requests within 30 seconds of last attempt
+    // Password validation
+    if (password.length < 6) {
+      setError('Password must be at least 6 characters');
+      return;
+    }
+
+    // Rate limiting: prevent requests within 5 seconds of last attempt (reduced from 30s)
     const now = Date.now();
-    const cooldown = 30000; // 30 seconds
+    const cooldown = 5000; // 5 seconds
     if (now - lastAttemptTime < cooldown) {
       const waitSeconds = Math.ceil((cooldown - (now - lastAttemptTime)) / 1000);
       setError(`Please wait ${waitSeconds} seconds before trying again`);
@@ -59,33 +64,40 @@ export function Auth() {
     setLastAttemptTime(now);
     localStorage.setItem('authLastAttempt', now.toString());
 
-    const result = mode === 'signin' ? await signIn(email, password) : await signUp(email, password);
-    
-    if (result.error) {
-      // Handle specific error messages
-      if (result.error.includes('Invalid login credentials')) {
-        setError('Invalid email or password');
-      } else if (result.error.includes('rate limit') || result.error.includes('too many requests')) {
-        setError('Too many attempts. Please wait a few minutes before trying again.');
-        // Extend cooldown on rate limit error
-        setLastAttemptTime(now);
-        localStorage.setItem('authLastAttempt', now.toString());
-      } else if (result.error.includes('Email') && result.error.includes('invalid')) {
-        setError('Invalid email address');
+    try {
+      const result = mode === 'signin' ? await signIn(email, password) : await signUp(email, password);
+      
+      if (result.error) {
+        // Handle specific error messages
+        if (result.error.includes('Invalid login credentials')) {
+          setError('Invalid email or password');
+        } else if (result.error.includes('rate limit') || result.error.includes('too many requests')) {
+          setError('Too many attempts. Please wait a few minutes before trying again.');
+          // Extend cooldown on rate limit error
+          setLastAttemptTime(now);
+          localStorage.setItem('authLastAttempt', now.toString());
+        } else if (result.error.includes('Email') && result.error.includes('invalid')) {
+          setError('Invalid email address');
+        } else if (result.error.includes('timeout')) {
+          setError('Connection timeout. Please check your internet and try again.');
+        } else {
+          setError(result.error);
+        }
       } else {
-        setError(result.error);
+        goToApp();
       }
-    } else {
-      goToApp();
+    } catch (err) {
+      setError('An unexpected error occurred. Please try again.');
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   return (
     <div className="auth-shell">
       <div className="auth-shell-inner">
         <button type="button" className="auth-back" onClick={() => navigate('/')}>
-          <ArrowLeft size={18} />
+          <ArrowBack size={18} />
         </button>
 
         <div className="auth-hero">
@@ -132,6 +144,7 @@ export function Auth() {
                       onChange={(e) => setEmail(e.target.value)}
                       required
                       autoComplete="email"
+                      disabled={loading}
                     />
                   </div>
                 </div>
@@ -152,12 +165,14 @@ export function Auth() {
                       required
                       minLength={6}
                       autoComplete={mode === 'signin' ? 'current-password' : 'new-password'}
+                      disabled={loading}
                     />
                     <button
                       type="button"
                       className="auth-password-toggle"
                       onClick={() => setShowPassword((v) => !v)}
                       aria-label={showPassword ? 'Hide password' : 'Show password'}
+                      disabled={loading}
                     >
                       {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                     </button>
@@ -167,7 +182,14 @@ export function Auth() {
                 {error && <p className="form-error auth-error">{error}</p>}
 
                 <button type="submit" className="btn btn-primary btn-block auth-submit" disabled={loading}>
-                  {loading ? 'Please wait...' : mode === 'signin' ? 'Sign In' : 'Create Account'}
+                  {loading ? (
+                    <span className="flex items-center justify-center gap-2">
+                      <Loader2 size={18} className="animate-spin" />
+                      {mode === 'signin' ? 'Signing in...' : 'Creating account...'}
+                    </span>
+                  ) : (
+                    mode === 'signin' ? 'Sign In' : 'Create Account'
+                  )}
                 </button>
               </form>
             </div>
@@ -180,12 +202,13 @@ export function Auth() {
                   setMode(mode === 'signin' ? 'signup' : 'signin');
                   setError('');
                 }}
+                disabled={loading}
               >
                 {mode === 'signin' ? 'Sign Up' : 'Sign In'}
               </button>
             </p>
 
-            <button type="button" className="auth-offline-link" onClick={goToApp}>
+            <button type="button" className="auth-offline-link" onClick={goToApp} disabled={loading}>
               Continue without account
             </button>
           </>
