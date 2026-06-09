@@ -248,9 +248,6 @@ textarea {
   padding: 16px;
   box-shadow: var(--shadow-card);
   transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
-  position: relative;
-  z-index: 1;
-  overflow: hidden;
 }
 
 .card:hover,
@@ -1171,14 +1168,21 @@ textarea {
   display: flex;
   flex-direction: column;
   gap: 16px;
-  position: relative;
-  z-index: 1;
 }
 
-.balance-section {
+.dashboard-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 8px 16px 16px;
+}
+
+.balance-card {
+  background: linear-gradient(180deg, var(--surface-1), var(--surface-2));
+  border: 1px solid color-mix(in oklch, var(--primary) 12%, transparent);
+  border-radius: var(--radius-xl);
   padding: 20px 16px;
-  position: relative;
-  z-index: 1;
+  box-shadow: var(--shadow-card);
 }
 
 .balance-label {
@@ -1205,19 +1209,66 @@ textarea {
   color: var(--muted-foreground);
 }
 
+.expense-card {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.expense-card-item {
+  background: linear-gradient(180deg, var(--surface-1), var(--surface-2));
+  border: 1px solid color-mix(in oklch, var(--primary) 12%, transparent);
+  border-radius: var(--radius-lg);
+  padding: 18px;
+}
+
+.expense-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.expense-card-label {
+  font-size: 0.75rem;
+  color: var(--muted-foreground);
+}
+
+.expense-card-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+}
+
+.expense-card-icon.income {
+  background: rgba(34, 195, 115, 0.15);
+  color: var(--primary);
+}
+
+.expense-card-icon.expense {
+  background: rgba(255, 99, 86, 0.15);
+  color: var(--expense);
+}
+
+.expense-card-value {
+  margin-top: 8px;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--foreground);
+  font-variant-numeric: tabular-nums;
+}
+
 .stat-grid-ref {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 12px;
-  position: relative;
-  z-index: 1;
 }
 
 .stat-tile-ref {
   border-radius: var(--radius-lg);
   padding: 18px;
-  position: relative;
-  z-index: 1;
 }
 
 .stat-tile-ref-header {
@@ -1268,8 +1319,6 @@ textarea {
   display: flex;
   flex-direction: column;
   gap: 16px;
-  position: relative;
-  z-index: 1;
 }
 
 .trends-header {
@@ -1322,9 +1371,6 @@ textarea {
 .trends-card {
   border-radius: var(--radius-xl);
   padding: 18px;
-  position: relative;
-  z-index: 1;
-  overflow: hidden;
 }
 
 .trends-card-header {
@@ -1376,9 +1422,6 @@ textarea {
   width: 100%;
   min-height: 220px;
   max-height: 250px;
-  overflow: hidden;
-  position: relative;
-  z-index: 1;
 }
 
 .trends-empty {
@@ -1403,7 +1446,6 @@ textarea {
   position: relative;
   width: 120px;
   height: 120px;
-  z-index: 1;
 }
 
 .category-pie-center {
@@ -1472,8 +1514,10 @@ textarea {
   flex-direction: column;
   gap: 12px;
   padding: 16px;
-  position: relative;
-  z-index: 1;
+  background: linear-gradient(180deg, var(--surface-1), var(--surface-2));
+  border: 1px solid color-mix(in oklch, var(--primary) 12%, transparent);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-card);
 }
 
 .recent-list {

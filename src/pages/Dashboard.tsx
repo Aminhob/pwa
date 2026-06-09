@@ -1,35 +1,14 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { TrendingUp, TrendingDown } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { getMonthlySummary, getRecentTransactions } from '../lib/analytics';
 import { getCategories } from '../services/categories';
 import { getTransactions } from '../services/transactions';
+import { BalanceCard } from '../components/Dashboard/BalanceCard';
+import { ExpenseCard } from '../components/Dashboard/ExpenseCard';
 import { TrendsAnalytics } from '../components/TrendsAnalytics';
-import { formatCurrency, getMonthYear } from '../lib/utils';
+import { getMonthYear } from '../lib/utils';
 import type { MonthlySummary, Transaction, Category } from '../types';
-
-function StatTile({
-  label,
-  value,
-  tone,
-  icon,
-}: {
-  label: string;
-  value: number;
-  tone: 'income' | 'expense';
-  icon: React.ReactNode;
-}) {
-  return (
-    <div className="glass-card stat-tile-ref">
-      <div className="stat-tile-ref-header">
-        <span className="stat-tile-ref-label">{label}</span>
-        <span className={`stat-tile-ref-icon ${tone}`}>{icon}</span>
-      </div>
-      <p className="stat-tile-ref-value">{formatCurrency(value)}</p>
-    </div>
-  );
-}
 
 export function Dashboard() {
   const { userId } = useAuth();
@@ -68,31 +47,11 @@ export function Dashboard() {
   );
 
   return (
-    <div className="dashboard-page">
-      <section className="balance-section glass-card">
-        <p className="balance-label">Total balance</p>
-        <h1 className="balance-amount">{formatCurrency(balance)}</h1>
-        <p className="balance-month">{monthName}</p>
-      </section>
-
-      <section className="stat-grid-ref">
-        <StatTile
-          label="Income"
-          value={summary?.income ?? 0}
-          tone="income"
-          icon={<TrendingUp size={16} />}
-        />
-        <StatTile
-          label="Expenses"
-          value={summary?.expenses ?? 0}
-          tone="expense"
-          icon={<TrendingDown size={16} />}
-        />
-      </section>
-
+    <div className="dashboard-container">
+      <BalanceCard balance={balance} monthName={monthName} />
+      <ExpenseCard income={summary?.income ?? 0} expenses={summary?.expenses ?? 0} />
       <TrendsAnalytics transactions={allTransactions} categories={categories} />
-
-      <section className="recent-section glass-card">
+      <section className="recent-section">
         <div className="section-header">
           <h2 className="section-title">Recent activity</h2>
           <Link to="/transactions" className="section-link-plain">
@@ -124,7 +83,7 @@ export function Dashboard() {
                   </div>
                   <span className={`recent-amount ${tx.type}`}>
                     {tx.type === 'income' ? '+' : '-'}
-                    {formatCurrency(tx.amount)}
+                    {tx.amount}
                   </span>
                 </li>
               );
