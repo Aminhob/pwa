@@ -97,7 +97,7 @@ export function Auth() {
     <div className="auth-shell">
       <div className="auth-shell-inner">
         <button type="button" className="auth-back" onClick={() => navigate('/')}>
-          <ArrowBack size={18} />
+          <ArrowLeft size={18} />
         </button>
 
         <div className="auth-hero">
