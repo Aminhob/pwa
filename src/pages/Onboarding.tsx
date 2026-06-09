@@ -84,7 +84,6 @@ export function Onboarding() {
 
   return (
     <div style={{
-      minHeight: '100vh',
       minHeight: '100dvh',
       background: '#FFFFFF',
       fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',

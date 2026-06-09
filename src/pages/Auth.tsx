@@ -1,3 +1,5 @@
+
+
 import { useState, useCallback, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Mail, Lock, Eye, EyeOff, ArrowLeft } from 'lucide-react';
@@ -17,7 +19,6 @@ export function Auth() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [lastAttemptTime, setLastAttemptTime] = useState(0);
-  const [cooldownRemaining, setCooldownRemaining] = useState(0);
 
   const validateEmail = useCallback((email: string): boolean => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -33,20 +34,6 @@ export function Auth() {
   }, []);
 
   // Update cooldown display every second
-  useEffect(() => {
-    const updateCooldown = () => {
-      const now = Date.now();
-      const elapsed = now - lastAttemptTime;
-      const cooldown = 30000; // 30 seconds cooldown
-      const remaining = Math.max(0, cooldown - elapsed);
-      setCooldownRemaining(remaining);
-    };
-
-    updateCooldown();
-    const interval = setInterval(updateCooldown, 1000);
-    return () => clearInterval(interval);
-  }, [lastAttemptTime]);
-
   const goToApp = () => navigate('/dashboard', { replace: true });
 
   const handleSubmit = async (e: React.FormEvent) => {
