@@ -1165,13 +1165,14 @@ textarea {
 /* Dashboard — reference layout */
 .dashboard-page {
   padding-top: 8px;
+  padding-bottom: 16px;
   display: flex;
   flex-direction: column;
   gap: 16px;
 }
 
 .balance-section {
-  padding: 8px 0;
+  padding: 20px 16px;
 }
 
 .balance-label {
@@ -1202,7 +1203,6 @@ textarea {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 12px;
-  margin-top: 24px;
 }
 
 .stat-tile-ref {
@@ -1362,6 +1362,7 @@ textarea {
   min-height: 220px;
   max-height: 250px;
   overflow: hidden;
+  position: relative;
 }
 
 .trends-empty {
@@ -1453,6 +1454,7 @@ textarea {
   display: flex;
   flex-direction: column;
   gap: 12px;
+  padding: 16px;
 }
 
 .recent-list {

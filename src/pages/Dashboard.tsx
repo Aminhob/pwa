@@ -69,7 +69,7 @@ export function Dashboard() {
 
   return (
     <div className="dashboard-page">
-      <section className="balance-section">
+      <section className="balance-section glass-card">
         <p className="balance-label">Total balance</p>
         <h1 className="balance-amount">{formatCurrency(balance)}</h1>
         <p className="balance-month">{monthName}</p>
@@ -94,7 +94,7 @@ export function Dashboard() {
         <TrendsAnalytics transactions={allTransactions} categories={categories} />
       </section>
 
-      <section className="recent-section">
+      <section className="recent-section glass-card">
         <div className="section-header">
           <h2 className="section-title">Recent activity</h2>
           <Link to="/transactions" className="section-link-plain">
