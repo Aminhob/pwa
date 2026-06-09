@@ -90,9 +90,7 @@ export function Dashboard() {
         />
       </section>
 
-      <section className="dashboard-analytics">
-        <TrendsAnalytics transactions={allTransactions} categories={categories} />
-      </section>
+      <TrendsAnalytics transactions={allTransactions} categories={categories} />
 
       <section className="recent-section glass-card">
         <div className="section-header">
