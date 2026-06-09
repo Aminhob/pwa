@@ -108,7 +108,7 @@ textarea {
   display: flex;
   flex-direction: column;
   min-height: 100dvh;
-  max-width: 448px;
+  max-width: 420px;
   margin: 0 auto;
   width: 100%;
   position: relative;
@@ -122,7 +122,7 @@ textarea {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: max(1rem, env(safe-area-inset-top, 0px)) 20px 12px;
+  padding: max(1rem, env(safe-area-inset-top, 0px)) 16px 12px;
   background: color-mix(in oklch, var(--background) 80%, transparent);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
@@ -156,7 +156,7 @@ textarea {
 
 .app-main {
   flex: 1;
-  padding: 0 20px;
+  padding: 0 16px;
   padding-bottom: calc(var(--nav-height) + var(--safe-bottom) + 16px);
   overflow-y: auto;
 }
@@ -245,7 +245,7 @@ textarea {
   background: linear-gradient(180deg, var(--surface-1), var(--surface-2));
   border: 1px solid color-mix(in oklch, var(--primary) 12%, transparent);
   border-radius: var(--radius-xl);
-  padding: 18px;
+  padding: 16px;
   box-shadow: var(--shadow-card);
   transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
 }
@@ -852,7 +852,7 @@ textarea {
   left: 50%;
   transform: translateX(-50%);
   width: 100%;
-  max-width: 448px;
+  max-width: 420px;
   padding: 8px 12px max(0.75rem, var(--safe-bottom));
   z-index: 40;
 }
@@ -1165,10 +1165,13 @@ textarea {
 /* Dashboard — reference layout */
 .dashboard-page {
   padding-top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
 .balance-section {
-  padding-top: 8px;
+  padding: 8px 0;
 }
 
 .balance-label {
@@ -1204,7 +1207,7 @@ textarea {
 
 .stat-tile-ref {
   border-radius: var(--radius-lg);
-  padding: 16px;
+  padding: 18px;
 }
 
 .stat-tile-ref-header {
@@ -1246,7 +1249,9 @@ textarea {
 }
 
 .dashboard-analytics {
-  margin-top: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
 .trends-analytics {
@@ -1304,7 +1309,7 @@ textarea {
 
 .trends-card {
   border-radius: var(--radius-xl);
-  padding: 20px;
+  padding: 18px;
 }
 
 .trends-card-header {
@@ -1352,8 +1357,11 @@ textarea {
 
 .trends-chart {
   margin-top: 16px;
-  height: 192px;
+  height: 220px;
   width: 100%;
+  min-height: 220px;
+  max-height: 250px;
+  overflow: hidden;
 }
 
 .trends-empty {
@@ -1368,7 +1376,7 @@ textarea {
 
 .category-chart-grid {
   display: grid;
-  grid-template-columns: 140px 1fr;
+  grid-template-columns: 120px 1fr;
   align-items: center;
   gap: 12px;
   margin-top: 12px;
@@ -1376,8 +1384,8 @@ textarea {
 
 .category-pie-wrap {
   position: relative;
-  width: 144px;
-  height: 144px;
+  width: 120px;
+  height: 120px;
 }
 
 .category-pie-center {
@@ -1442,8 +1450,9 @@ textarea {
 }
 
 .recent-section {
-  margin-top: 24px;
-  margin-bottom: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
 .recent-list {
@@ -1517,11 +1526,11 @@ textarea {
 /* Onboarding */
 .onboarding-page {
   min-height: 100dvh;
-  max-width: 448px;
+  max-width: 420px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  padding: max(1rem, env(safe-area-inset-top, 0px)) 24px max(1.5rem, env(safe-area-inset-bottom, 0px));
+  padding: max(1rem, env(safe-area-inset-top, 0px)) 16px max(1.5rem, env(safe-area-inset-bottom, 0px));
   background: var(--background);
 }
 
